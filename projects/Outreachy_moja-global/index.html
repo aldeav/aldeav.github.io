@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Open Source Project — aldeav</title>
+  <title>MLOps for GCBM Carpathians — aldeav</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -13,17 +13,18 @@
     :root {
       --black: #111;
       --white: #fafaf8;
-      --mid: #888;
-      --border: #e0ddd8;
-      --tag-bg: #f0ede8;
+      --mid: #555;
+      --border: #d0cdc8;
+      --tag-bg: #e8e5e0;
+      --code-bg: #e8e5df;
     }
 
     body {
       font-family: 'DM Sans', sans-serif;
       background: var(--white);
-      color: var(--black);
-      font-size: 16px;
-      line-height: 1.6;
+      color: #1a1a1a;
+      font-size: 17px;
+      line-height: 1.7;
       -webkit-font-smoothing: antialiased;
     }
 
@@ -35,7 +36,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 1.25rem 2.5rem;
-      background: rgba(250, 250, 248, 0.88);
+      background: rgba(250, 250, 248, 0.92);
       backdrop-filter: blur(8px);
       border-bottom: 0.5px solid var(--border);
     }
@@ -50,37 +51,37 @@
     }
 
     .nav-back {
-      font-size: 13px;
-      color: var(--mid);
+      font-size: 14px;
+      color: #444;
       text-decoration: none;
-      letter-spacing: 0.02em;
       transition: color 0.15s;
     }
 
     .nav-back:hover { color: var(--black); }
 
     .page {
-      max-width: 760px;
+      max-width: 780px;
       margin: 0 auto;
-      padding: 8rem 2.5rem 5rem;
+      padding: 8rem 2.5rem 7rem;
     }
 
     .eyebrow {
       font-family: 'DM Mono', monospace;
-      font-size: 11px;
+      font-size: 12px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--mid);
+      color: #555;
       margin-bottom: 1rem;
     }
 
     h1 {
       font-family: 'DM Serif Display', serif;
-      font-size: clamp(2rem, 5vw, 3rem);
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
       font-weight: 400;
-      line-height: 1.15;
+      line-height: 1.12;
       letter-spacing: -0.02em;
       margin-bottom: 1.5rem;
+      color: #111;
     }
 
     .meta {
@@ -92,19 +93,16 @@
 
     .tag {
       font-family: 'DM Mono', monospace;
-      font-size: 10px;
+      font-size: 11px;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       background: var(--tag-bg);
-      color: #555;
-      padding: 3px 8px;
+      color: #444;
+      padding: 4px 10px;
       border-radius: 2px;
     }
 
-    .tag.open {
-      background: #e8f0e8;
-      color: #3a6b3a;
-    }
+    .tag.open { background: #ddeedd; color: #2d5a2d; }
 
     .divider {
       height: 0.5px;
@@ -112,110 +110,270 @@
       margin: 2.5rem 0;
     }
 
-    .summary {
-      font-size: 1.1rem;
-      font-weight: 300;
-      color: #444;
-      line-height: 1.8;
-      margin-bottom: 2.5rem;
+    /* Section headers matching the PDF style */
+    .section-arrow {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-arrow .arrow {
+      font-size: 1rem;
+      color: #333;
     }
 
     h2 {
       font-family: 'DM Serif Display', serif;
-      font-size: 1.4rem;
+      font-size: 1.7rem;
       font-weight: 400;
-      margin-bottom: 1rem;
+      color: #111;
+      margin: 2.5rem 0 1rem;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #222;
+      margin: 1.75rem 0 0.6rem;
+      letter-spacing: 0.01em;
     }
 
     p {
-      font-size: 15px;
-      color: #555;
+      font-size: 17px;
+      color: #222;
       line-height: 1.8;
-      font-weight: 300;
-      margin-bottom: 1rem;
+      font-weight: 400;
+      margin-bottom: 1.1rem;
     }
 
-    .github-link {
+    a {
+      color: #1a4fa8;
+      text-underline-offset: 3px;
+    }
+
+    a:hover { opacity: 0.75; }
+
+    code {
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      background: var(--code-bg);
+      padding: 2px 7px;
+      border-radius: 2px;
+      color: #222;
+    }
+
+    /* PR link badge */
+    .pr-link {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      margin-top: 1.5rem;
-      padding: 0.6rem 1.25rem;
-      border: 0.5px solid var(--black);
+      gap: 0.4rem;
       font-family: 'DM Mono', monospace;
       font-size: 12px;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.04em;
+      color: #444;
       text-decoration: none;
-      color: var(--black);
-      transition: background 0.15s, color 0.15s;
+      border: 0.5px solid var(--border);
+      padding: 5px 12px;
+      border-radius: 2px;
+      margin-bottom: 1.25rem;
+      transition: color 0.15s, border-color 0.15s;
     }
 
-    .github-link:hover {
-      background: var(--black);
-      color: var(--white);
+    .pr-link:hover { color: var(--black); border-color: #888; }
+
+    /* Note box */
+    .note-box {
+      border-left: 3px solid #ccc;
+      padding: 0.6rem 1rem;
+      margin: 1rem 0 1.25rem;
+      background: #f3f1ec;
     }
 
-    /* Visual placeholder area */
+    .note-box p {
+      margin: 0;
+      font-size: 15px;
+      color: #444;
+    }
+
+    /* Code block — for showing file snippets */
+    .code-block {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      line-height: 1.65;
+      padding: 1.25rem 1.5rem;
+      border-radius: 3px;
+      overflow-x: auto;
+      margin: 1.25rem 0;
+    }
+
+    .code-block .kw  { color: #cba6f7; } /* purple — keywords */
+    .code-block .str { color: #a6e3a1; } /* green  — strings/values */
+    .code-block .cm  { color: #6c7086; } /* grey   — comments */
+    .code-block .key { color: #89dceb; } /* cyan   — keys */
+
+    /* Table */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      font-family: 'DM Mono', monospace;
+      margin: 1.25rem 0;
+      overflow-x: auto;
+      display: block;
+    }
+
+    .data-table th {
+      background: #2a2a3a;
+      color: #cdd6f4;
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .data-table td {
+      padding: 6px 12px;
+      border-bottom: 0.5px solid var(--border);
+      color: #333;
+      white-space: nowrap;
+    }
+
+    .data-table tr:nth-child(even) td { background: #f5f3ee; }
+
+    /* Metrics diff table */
+    .diff-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin: 1.25rem 0;
+    }
+
+    .diff-table th {
+      background: #2a2a3a;
+      color: #cdd6f4;
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 500;
+    }
+
+    .diff-table td {
+      padding: 9px 14px;
+      border-bottom: 0.5px solid var(--border);
+      color: #222;
+    }
+
+    .diff-table tr:nth-child(even) td { background: #f5f3ee; }
+
+    /* Image placeholder */
     .visual-block {
       border: 0.5px solid var(--border);
-      background: #f7f5f1;
-      min-height: 320px;
+      background: #f2f0eb;
+      min-height: 260px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 0.75rem;
-      margin: 2rem 0;
-      color: var(--mid);
+      gap: 0.5rem;
+      margin: 1.25rem 0 0.4rem;
+      color: #888;
+      overflow: hidden;
     }
 
-    .visual-block .placeholder-label {
+    .visual-block img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .visual-block .ph {
       font-family: 'DM Mono', monospace;
       font-size: 11px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
     }
 
-    .visual-block img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border: 0.5px solid var(--border);
-      margin: 2rem 0;
-    }
-
-    .stat {
-      background: var(--white);
-      padding: 1.5rem;
-    }
-
-    .stat-value {
-      font-family: 'DM Serif Display', serif;
-      font-size: 2rem;
-      line-height: 1;
-      margin-bottom: 0.25rem;
-    }
-
-    .stat-label {
+    .visual-caption {
       font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.1em;
+      font-size: 11px;
+      letter-spacing: 0.07em;
       text-transform: uppercase;
-      color: var(--mid);
+      color: #888;
+      margin-bottom: 1.5rem;
     }
+
+    /* Stage list table */
+    .stage-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      margin: 1rem 0 1.5rem;
+      background: #1e1e2e;
+      color: #cdd6f4;
+    }
+
+    .stage-table td {
+      padding: 5px 14px;
+      line-height: 1.6;
+    }
+
+    .stage-table td:first-child { color: #89dceb; width: 220px; }
+    .stage-table td:last-child  { color: #a6e3a1; }
+
+    /* Log links list */
+    .log-list {
+      list-style: none;
+      margin: 0.75rem 0 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .log-list li::before {
+      content: "→ ";
+      font-family: 'DM Mono', monospace;
+      color: #888;
+    }
+
+    .log-list a {
+      font-size: 15px;
+    }
+
+    /* GitHub link button */
+    .github-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 2rem;
+      padding: 0.7rem 1.4rem;
+      border: 0.5px solid #111;
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      color: #111;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .github-link:hover { background: #111; color: #fafaf8; }
+
+    /* Summary block */
+    .summary-block {
+      background: #f2f0eb;
+      border: 0.5px solid var(--border);
+      padding: 1.75rem;
+      margin-top: 1rem;
+    }
+
+    .summary-block p { margin: 0; font-size: 17px; }
 
     @media (max-width: 600px) {
       nav { padding: 1rem 1.25rem; }
-      .page { padding: 7rem 1.25rem 4rem; }
-      .stats-row { grid-template-columns: 1fr; }
+      .page { padding: 7rem 1.25rem 5rem; }
+      .stage-table td:first-child { width: 140px; }
     }
   </style>
 </head>
@@ -227,54 +385,194 @@
   </nav>
 
   <div class="page">
-    <p class="eyebrow">Open source · 2022-2023</p>
-    <h1>Outrachy moja-global</h1>
+
+    <p class="eyebrow">Open source · Outreachy internship · moja global</p>
+    <h1>MLOps for GCBM Carpathians</h1>
 
     <div class="meta">
       <span class="tag open">Open source</span>
+      <span class="tag">MLOps</span>
+      <span class="tag">DVC</span>
+      <span class="tag">CML</span>
       <span class="tag">Python</span>
-      <span class="tag">Data</span>
-      <!-- Add or remove tags as needed -->
-    </div>
-
-    <p class="summary">
-      Replace this with a 1–2 sentence overview of what the project does, why you built it, and who uses it.
-    </p>
-
-    <div class="divider"></div>
-
-    <!-- Key stats — fill in or remove -->
-    <div class="stats-row">
-      <div class="stat">
-        <div class="stat-value">—</div>
-        <div class="stat-label">GitHub stars</div>
-      </div>
-      <div class="stat">
-        <div class="stat-value">—</div>
-        <div class="stat-label">Contributors</div>
-      </div>
-      <div class="stat">
-        <div class="stat-value">—</div>
-        <div class="stat-label">Releases</div>
-      </div>
+      <span class="tag">R</span>
+      <span class="tag">GitHub Actions</span>
     </div>
 
     <div class="divider"></div>
 
-    <h2>What it does</h2>
-    <p>Describe the problem this solves and how it works at a high level. Keep it accessible — imagine someone who isn't in your field reading this.</p>
+    <!-- Project description -->
+    <div class="section-arrow"><span class="arrow">➜</span><h2 style="margin:0;">Project description</h2></div>
+    <p>The objective of this project was to apply MLOps techniques for distributed land sector modelling with CML action for GCBM Carpathians being the core part. The project has the following components for GCBM Carpathians:</p>
+    <p>i. DVC pipeline<br/>ii. Postprocessing<br/>iii. CML Workflow</p>
 
-    <!-- Chart / screenshot placeholder — swap src for a real image -->
+    <!-- About moja global -->
+    <div class="section-arrow" style="margin-top:2rem;"><span class="arrow">➜</span><h2 style="margin:0;">About moja global</h2></div>
+    <p>Moja global is a non-profit, collaborative project that brings together a community of experts to develop open-source software that allows users to accurately and affordably estimate greenhouse gas emissions and removals from the AFOLU sector.</p>
+
+    <!-- Mentors -->
+    <div class="section-arrow" style="margin-top:2rem;"><span class="arrow">➜</span><h2 style="margin:0;">Mentors and fellow Contributors</h2></div>
+    <p>I am really grateful to my mentors <a href="https://github.com/aornugent" target="_blank">Andrew O'Reilly-Nugent</a>, <a href="https://github.com/Simpleshell3" target="_blank">Simple Shell</a> and <a href="https://github.com/radistoubalidis" target="_blank">Radis Toumpalidis</a> for helping me throughout this internship. I am thankful for their encouragement, appreciation and feedback, which helped me in improving my contributions and gaining valuable skills and knowledge.</p>
+    <p>I would also like to thank my fellow interns — Hien and Bolu Adesanya — for helping me and discussing ideas and results to contribute better.</p>
+
+    <div class="divider"></div>
+
+    <h2>0. Background Theory</h2>
+
+    <h3>FLINT and GCBM models</h3>
+    <p>Full Lands Integration Tool (<a href="https://github.com/moja-global/FLINT" target="_blank">FLINT</a>), <a href="https://github.com/moja-global" target="_blank">moja global</a>'s flagship software, is an open-sourced tool developed by moja global that gives countries the ability to build and run advanced MRV (measuring, reporting and verification) system quickly and efficiently. FLINT reads spatial and aspatial data, call event-driven modules to generate spatial & tabular output and log errors.</p>
+    <p>GCBM (Generic Carbon Budget Model) is an open-sourced model that operates on the FLINT platform and is a spatially-explicit modelling framework. GCBM specifies a high level of detail in the scientific model and has the capability to run these over large spatial scales. This help generate detailed maps of carbon changes and emission associated with use of land.</p>
+    <p>Finally, <a href="https://github.com/moja-global/GCBM.Carpathians" target="_blank">GCBM Carpathians</a> is the implementation with Carpathian montane forests, a mountain range in Central Europe.</p>
+
+    <h3>MLOps</h3>
+    <p>The formal definition of Machine Learning Operations (MLOps) defines it as the extension of the DevOps methodology to include Machine Learning and Data Science assets as first-class citizens within the DevOps ecology.</p>
+    <p>Machine Learning is a powerful tool and is capable of solving a number of problems that may be too complicated to solve traditionally. Some examples are: prediction, classification, recommendation and anomaly detection. However, simply building a model on one's machine is far from being useful while considering a product in a business. The model needs to be deployed into production, monitored and managed to harness its potential and generate business value. MLOps bridges this very gap between having a model on a machine and deploying it into production environment.</p>
+    <p>In other words, MLOps provide with capabilities to deploy, monitor, manage and govern ML models in production, hence offering reproducibility, resilience and scalability.</p>
+
+    <div class="divider"></div>
+
+    <h2>1. DVC Pipeline for GCBM Carpathians</h2>
+
+    <a href="https://github.com/aldeav/GCBM.Carpathians/pull/5" target="_blank" class="pr-link">↗ Pull request #5</a>
+    <div class="note-box"><p>The DVC pipeline is included in the CML workflow PR to include postprocessing as well.</p></div>
+
+    <h3>Problem</h3>
+    <p>a. The current Standalone GCBM model has the <code>run_all.bat</code> batch file which runs all the stages. However, the execution of individual stages with the change in the files used in numerous stages is complex to understand and hard to reproduce.</p>
+    <p>b. With the current Standalone GCBM, it is difficult to analyse and compare the model result with various configurations. One has to run the required stages and analyse the outputs manually.</p>
+
+    <h3>Objective</h3>
+    <p>To create a DVC pipeline to facilitate the aforesaid issues. DVC provides a more structured way of monitoring and executing stages as they are modified or removed. Furthermore, here, DVC has been used to store large dataset files and results away from the git repository.</p>
+
+    <h3>Theory about DVC</h3>
+    <p><a href="https://dvc.org" target="_blank">Data Version Control</a> (DVC) is a tool developed by iterative.ai that helps manage data and ML models making them shareable and reproducible. DVC works along with git and stores data and models outside of git, along with providing a version control system for the same.</p>
+    <p>DVC helps store large data and models in remote storages such as Google Drive, S-3, etc. and retrieve it as required. A <code>.dvc</code> file is generated when data files are pushed to the remote storage. This file contains metadata about the size, version and location of the data files and are kept in the git repository as placeholders.</p>
+    <p>DVC tracks all the dependencies, and the outputs, of stages of the pipeline. This helps skip the stages that did not have any modifications and only execute the ones that had some changes made.</p>
+    <p>Subsequently, DVC provides the facility to run multiple experiments, with different names, to keep a record of experiments. One can run various experiments, with different configurations, and compare the results. DVC also caches these runs. Thus, if DVC comes across dataset or configuration stored in cache, it simply loads the same or related experiment instead of re-running the whole experiment.</p>
+
+    <h3>Methodology and Results</h3>
+    <p>There are 6 stages in the Standalone GCBM Carpathians model. These stages were put into the pipeline through DVC. DVC comprises of a YAML file, which holds information about various stages, and a lock file, which provides specific version of files along with their md5 hashes, timestamp of creation and size. Each stage in the <code>dvc.yaml</code> file, consists of the command to be executed for that stage, the working directory where the command is to be executed, dependencies for the stage and the outputs. To execute the DVC pipeline in a particular order, one can provide the output of one stage as the input for the next stage in the pipeline. Herein, log files from each stage were used as its output. The outputs of each stage are tracked by DVC and hence, are not by git (unless used with <code>--force</code>).</p>
+
+    <div class="note-box"><p><strong>NOTE:</strong> this DVC pipeline uses batch files for all 6 stages</p></div>
+
+    <p>The 6 stages of GCBM Carpathians in the DVC pipeline:</p>
+
     <div class="visual-block">
-      <span class="placeholder-label">Replace with screenshot or chart</span>
+      <img src="gcbm_6_stages.png" alt="GCBM stages" style="width:100%; height:auto;" />
     </div>
 
-    <h2>How I built it</h2>
-    <p>A short paragraph on the technical approach, interesting decisions, or challenges you solved. This is a good place to show depth without requiring the reader to open the repo.</p>
+    <p>To add a stage into the <code>dvc.yaml</code> file, <code>dvc stage add</code> is used. Alternately, one can directly add a stage into the yaml file. A snippet of the <code>dvc.yaml</code> file is described below:</p>
 
-    <a href="https://github.com/aldeav/YOUR-REPO" target="_blank" class="github-link">
+    <div class="visual-block">
+      <img src="snippet_yaml.png" alt="File snippet" style="width:65%; height:auto;" />
+    </div>
+
+    <p>The command <code>dvc repro</code> (reproduce the pipeline), facilitates the user to recreate or reproduce the pipeline and execute all the stages in a Standalone GCBM model. With the help of DVC, one can monitor how the different stages vary if the dependencies change. This eliminates the need to execute the whole pipeline for a small change in a configuration or any input file. Alternately, the user can run various experiments, with different configurations, using <code>dvc exp run</code> in the same environment and compare the results of the same. Moreover, individual stages can be run using <code>dvc repro -s &lt;stage-name&gt;</code>.</p>
+    <p>The datasets and results tracked by DVC were uploaded to Google Drive remote storage. One can add a remote store with <code>dvc remote add</code>.</p>
+    <p>The information (name of storage and url) about the remote storage is stored in <code>.dvc/config</code> file. To push data to a remote storage, <code>dvc push</code> is used and to pull data <code>dvc pull</code> is used.</p>
+    <p>Finally, one can view metrics and plots using <code>dvc metrics show</code> and <code>dvc plots show</code>. Difference in metrics and plots can be viewed using <code>dvc metrics diff</code> and <code>dvc plots diff</code>.</p>
+
+    <div class="divider"></div>
+
+    <h2>2. Postprocessing</h2>
+
+    <a href="https://github.com/moja-global/GCBM.Carpathians/pull/1" target="_blank" class="pr-link">↗ Pull request #1</a>
+
+    <h3>Problem</h3>
+    <p>GCBM Carpathians did not have a postprocessing step wherein the results can be easily interpreted and compared to different simulation runs with varying configurations.</p>
+
+    <h3>Objective</h3>
+    <p>To add postprocessing stage to GCBM Carpathians. Following uniformity, similar to GCBM Belize, an R script for postprocessing has been added. Moreover, a <code>create_metrics.py</code> script has been added to be used as metrics in the DVC pipeline. This makes it easier to compare metrics produced by various experiments.</p>
+
+    <h3>Methodology</h3>
+    <p>The compiled dataset consists of 12 tables. Postprocessing only follows indicators from the <code>v_pool_indicators</code> for 4 indicators — Total Biomass, Deadwood, Soil Carbon and Litter. Carpathians consists of five lifezones — Boreal wet forest, Cool temperate moist forest, Cool temperate steppe forest, Cool temperate wet forest and Polar rain tundra forest. To achieve the same, year, Lifezone, indicator, <code>pool_tc</code> and area of the lifezone has been extracted from the tables <code>v_age_indicator</code> and <code>v_pool_indicator</code>. It further calculates <code>pool_tc_per_ha</code>. This data is plotted as well as saved to csv with values for every 5 years as well as a full sensitivity csv. For metrics, common statistical measures were used — mean and standard deviation.</p>
+
+    <h3>Experiments and Results</h3>
+
+    <p>Plot for Boreal wet forest:</p>
+    
+    <div class="visual-block">
+      <img src="plot_boreal.png" alt="Boreal wet forest plot" style="width:100%; height:auto;" />
+    </div>
+    <p class="visual-caption">Carbon Stocks of Boreal wet forest (Carpathians) — GCBM Sensitivity analysis</p>
+
+    <p>Snippet of csv:</p>
+    <div class="visual-block" style="min-height:160px;">
+      <img src="boreal_csv.png" alt="CSV snippet" />
+    </div>
+
+    <p>Metric file (json) for Boreal wet forest:</p>
+    <div class="visual-block" style="min-height:160px;">
+      <img src="boreal_json.png" alt="Metric file (JSON)" style="width: 500px; max-height:400px; object-fit:contain;"/>
+    </div>
+
+    <div class="divider"></div>
+
+    <h2>3. CML Workflow</h2>
+
+    <a href="https://github.com/moja-global/GCBM.Carpathians/pull/2" target="_blank" class="pr-link">↗ Pull request #2</a>
+    <div class="note-box"><p><strong>Note:</strong> This PR includes Postprocessing, DVC pipeline and CML workflow files.</p></div>
+
+    <h3>Problem</h3>
+    <p>There is no process to provide automated report of the metrics and results generated from various GCBM configurations. Furthermore, there is no mechanism to check the integrity of the code before merging it to the repository.</p>
+
+    <h3>Objective</h3>
+    <p>To add CML (Continuous Machine Learning) action for GCBM Carpathians which provides an automated report of the simulation carried out. The report entails plots generated and the difference in metrics between HEAD and workspace.</p>
+
+    <h3>Theory about CML</h3>
+    <p><a href="https://cml.dev" target="_blank">Continuous Machine Learning</a> (CML) is a Continuous Integration and Continuous Deployment tool developed by iterative.ai. CML workflows help in running the simulation and generating reports for comparison as well as checking the integrity of the new code before merging. CML does not require additional tech stack and makes use of existing sites and tools such as Github and Docker.</p>
+    <p>A cml workflow file is a YAML file that always resides in the folder <code>.github/workflows</code>. It consists of name of the workflow, when the workflow will be triggered (on general push/pull request or when a specific file is pushed/on a pull request), jobs (what all jobs need to be performed, there may also be multiple dependent or independent jobs), on which image the job runs on (ubuntu, macos or windows), container (if any) and the steps to be executed. The steps include the setup of various libraries, languages, tools, etc in addition to the command be executed with a specific shell. One can display the results of simulation obtained after running the CML workflow files in the logs of Github Actions or add a comment under the pull request/pushed commit using <code>cml comment</code>. A snippet of CML workflow files is as follows:</p>
+
+    <div class="visual-block" style="min-height:160px;">
+      <img src="cml_workflow.png" alt="CML Workflow" style="width: 500px; max-height:400px; object-fit:contain;"/>
+    </div>
+
+    <h3>Methodology</h3>
+    <p>GCBM Carpathians consists of 6 stages. The output of the third stage is the input database which is supplied to the fourth stage, which runs the GCBM simulation. The sixth stage outputs the compiled output database that can be easily visualised using the postprocessing step. To accommodate these two scenarios, two CML workflows have been included.</p>
+
+    <p><strong>I. Triggered by change in the compiled output database</strong></p>
+    <p>This CML workflow gets triggered when a new processed database is pushed into the repo or the pull request includes changes to the processed db. The workflow runs the postprocessing stage from the DVC pipeline to create plots and metrics. The CML comment entails difference in metrics between the database at HEAD and the workspace along with the new plots created.</p>
+
+    <p><strong>II. Triggered by change in the input database</strong></p>
+    <p>This CML workflow is triggered when a modified input database is pushed (or in a pull request) to the main repo. This input database may be created as a result of changing configurations, etc. This workflow runs the gcbm and compiles results to output the compiled database. The workflow, similar to previous workflow, runs the postprocessing stage from the DVC pipeline to create plots and metrics and showcase the difference in metrics when compared to the HEAD along with plots. This part uses two different runners — ubuntu runner with the container <code>ghcr.io/moja-global/rest_api_gcbm:master</code> and windows runner. These two files have been added given their difference in the time of execution of the workflow.</p>
+
+    <h3>Experiments and Results</h3>
+
+    <p>Log file for:</p>
+    <ul class="log-list">
+      <li>Triggered by change in the compiled output database — <a href="https://github.com/aldeav/GCBM.Carpathians/actions/runs/4320619401" target="_blank">log file</a></li>
+      <li>Triggered by change in the input database
+        <ul class="log-list" style="margin-top:0.4rem; margin-left:1rem;">
+          <li><a href="https://github.com/aldeav/GCBM.Carpathians/actions/runs/4231297390" target="_blank">Windows runner</a></li>
+          <li><a href="https://github.com/aldeav/GCBM.Carpathians/actions/runs/4225465307" target="_blank">Ubuntu runner with container</a></li>
+        </ul>
+      </li>
+    </ul>
+
+    <p>A snippet of cml comment showing metrics diff is as follows:</p>
+
+    <div class="visual-block" style="min-height:160px;">
+      <img src="cml_metrics_diff.png" alt="CML Metrics" style="width: 100%; max-height:400px; object-fit:contain;"/>
+    </div>
+
+    <div class="divider"></div>
+
+    <h2>4. Miscellaneous</h2>
+
+    <p>PR for GCBM.Belize — <a href="https://github.com/moja-global/GCBM.Belize/pull/18" target="_blank">https://github.com/moja-global/GCBM.Belize/pull/18</a></p>
+    <p>It fixes the issues with tables and figures encountered when the R script is run multiple times in the same R session.</p>
+
+    <div class="divider"></div>
+
+    <h2>Summary</h2>
+
+    <div class="summary-block">
+      <p>I have had a wonderful experience with the moja global community throughout the Outreachy internship. I have learned a lot about open source as well as MLOPs throughout the 3 months. I am very thankful to my mentors for their guidance, support and encouragement. I hope to keep learning and look forward to continuing my open source journey.</p>
+    </div>
+
+    <a href="https://github.com/aldeav/GCBM.Carpathians" target="_blank" class="github-link">
       View on GitHub ↗
     </a>
+
   </div>
 
 </body>
