@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Open Source Project — aldeav</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #111;
+      --white: #fafaf8;
+      --mid: #888;
+      --border: #e0ddd8;
+      --tag-bg: #f0ede8;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 2.5rem;
+      background: rgba(250, 250, 248, 0.88);
+      backdrop-filter: blur(8px);
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      color: var(--black);
+    }
+
+    .nav-back {
+      font-size: 13px;
+      color: var(--mid);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: color 0.15s;
+    }
+
+    .nav-back:hover { color: var(--black); }
+
+    .page {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 8rem 2.5rem 5rem;
+    }
+
+    .eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+
+    .meta {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: var(--tag-bg);
+      color: #555;
+      padding: 3px 8px;
+      border-radius: 2px;
+    }
+
+    .tag.open {
+      background: #e8f0e8;
+      color: #3a6b3a;
+    }
+
+    .divider {
+      height: 0.5px;
+      background: var(--border);
+      margin: 2.5rem 0;
+    }
+
+    .summary {
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: #444;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+    }
+
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 15px;
+      color: #555;
+      line-height: 1.8;
+      font-weight: 300;
+      margin-bottom: 1rem;
+    }
+
+    .github-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      padding: 0.6rem 1.25rem;
+      border: 0.5px solid var(--black);
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      color: var(--black);
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .github-link:hover {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    /* Visual placeholder area */
+    .visual-block {
+      border: 0.5px solid var(--border);
+      background: #f7f5f1;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin: 2rem 0;
+      color: var(--mid);
+    }
+
+    .visual-block .placeholder-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .visual-block img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 0.5px solid var(--border);
+      margin: 2rem 0;
+    }
+
+    .stat {
+      background: var(--white);
+      padding: 1.5rem;
+    }
+
+    .stat-value {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.25rem; }
+      .page { padding: 7rem 1.25rem 4rem; }
+      .stats-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../../index.html" class="nav-logo">aldeav</a>
+    <a href="../../index.html" class="nav-back">← Back</a>
+  </nav>
+
+  <div class="page">
+    <p class="eyebrow">Open source · 2024</p>
+    <h1>Open Source Project Name</h1>
+
+    <div class="meta">
+      <span class="tag open">Open source</span>
+      <span class="tag">Python</span>
+      <span class="tag">Data</span>
+      <!-- Add or remove tags as needed -->
+    </div>
+
+    <p class="summary">
+      Replace this with a 1–2 sentence overview of what the project does, why you built it, and who uses it.
+    </p>
+
+    <div class="divider"></div>
+
+    <!-- Key stats — fill in or remove -->
+    <div class="stats-row">
+      <div class="stat">
+        <div class="stat-value">—</div>
+        <div class="stat-label">GitHub stars</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">—</div>
+        <div class="stat-label">Contributors</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">—</div>
+        <div class="stat-label">Releases</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <h2>What it does</h2>
+    <p>Describe the problem this solves and how it works at a high level. Keep it accessible — imagine someone who isn't in your field reading this.</p>
+
+    <!-- Chart / screenshot placeholder — swap src for a real image -->
+    <div class="visual-block">
+      <span class="placeholder-label">Replace with screenshot or chart</span>
+    </div>
+
+    <h2>How I built it</h2>
+    <p>A short paragraph on the technical approach, interesting decisions, or challenges you solved. This is a good place to show depth without requiring the reader to open the repo.</p>
+
+    <a href="https://github.com/aldeav/YOUR-REPO" target="_blank" class="github-link">
+      View on GitHub ↗
+    </a>
+  </div>
+
+</body>
+</html>

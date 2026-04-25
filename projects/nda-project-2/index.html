@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Client Project Two — aldeav</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #111;
+      --white: #fafaf8;
+      --mid: #888;
+      --border: #e0ddd8;
+      --tag-bg: #f0ede8;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 2.5rem;
+      background: rgba(250, 250, 248, 0.88);
+      backdrop-filter: blur(8px);
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      color: var(--black);
+    }
+
+    .nav-back {
+      font-size: 13px;
+      color: var(--mid);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: color 0.15s;
+    }
+
+    .nav-back:hover { color: var(--black); }
+
+    .page {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 8rem 2.5rem 5rem;
+    }
+
+    .eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+
+    .meta {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: var(--tag-bg);
+      color: #777;
+      padding: 3px 8px;
+      border-radius: 2px;
+    }
+
+    .tag.confidential {
+      background: #f0ede8;
+      color: #aaa;
+      border: 0.5px solid #ddd;
+    }
+
+    .nda-notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem;
+      border: 0.5px solid #e0ddd8;
+      background: #f7f5f1;
+      margin-bottom: 2.5rem;
+    }
+
+    .nda-notice-icon {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--mid);
+      margin-top: 1px;
+      flex-shrink: 0;
+    }
+
+    .nda-notice p {
+      font-size: 13px;
+      color: #777;
+      line-height: 1.6;
+      margin: 0;
+      font-weight: 300;
+    }
+
+    .divider {
+      height: 0.5px;
+      background: var(--border);
+      margin: 2.5rem 0;
+    }
+
+    .summary {
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: #444;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+    }
+
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 15px;
+      color: #555;
+      line-height: 1.8;
+      font-weight: 300;
+      margin-bottom: 1rem;
+    }
+
+    /* Visual areas — replace placeholders with real images/charts */
+    .visual-block {
+      border: 0.5px solid var(--border);
+      background: #f7f5f1;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin: 2rem 0;
+      color: var(--mid);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .visual-block .placeholder-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .visual-block img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .visual-caption {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-top: -1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 0.5px solid var(--border);
+      margin: 2rem 0;
+    }
+
+    .stat {
+      background: var(--white);
+      padding: 1.5rem;
+    }
+
+    .stat-value {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.25rem; }
+      .page { padding: 7rem 1.25rem 4rem; }
+      .stats-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../../index.html" class="nav-logo">aldeav</a>
+    <a href="../../index.html" class="nav-back">← Back</a>
+  </nav>
+
+  <div class="page">
+    <p class="eyebrow">Client work · 2025</p>
+    <h1>Client Project Two</h1>
+
+    <div class="meta">
+      <span class="tag confidential">Confidential</span>
+      <span class="tag">Analytics</span>
+      <!-- Add relevant tags -->
+    </div>
+
+    <div class="nda-notice">
+      <span class="nda-notice-icon">NDA</span>
+      <p>Specific details, client name, and proprietary data are omitted. Visuals below are anonymised or representative.</p>
+    </div>
+
+    <p class="summary">
+      Replace this with a sanitized 1–2 sentence overview of the project: what industry, what problem, what outcome — without revealing anything proprietary.
+    </p>
+
+    <div class="divider"></div>
+
+    <!-- Outcome stats — fill in with real (anonymised) numbers -->
+    <div class="stats-row">
+      <div class="stat">
+        <div class="stat-value">—</div>
+        <div class="stat-label">Key metric</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">—</div>
+        <div class="stat-label">Key metric</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">—</div>
+        <div class="stat-label">Key metric</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <h2>The challenge</h2>
+    <p>Describe the problem at a high level without naming the client or revealing confidential scope. Focus on what made it interesting technically or strategically.</p>
+
+    <!-- Visual 1 — replace with real chart/mockup/screenshot -->
+    <div class="visual-block">
+      <span class="placeholder-label">Chart or mockup — drop image here</span>
+    </div>
+    <p class="visual-caption">Fig. 1 — brief caption</p>
+
+    <h2>Approach</h2>
+    <p>Explain how you approached the problem: methodology, tools, frameworks. This is your chance to demonstrate thinking without disclosing anything proprietary.</p>
+
+    <!-- Visual 2 -->
+    <div class="visual-block">
+      <span class="placeholder-label">Second visual — drop image here</span>
+    </div>
+    <p class="visual-caption">Fig. 2 — brief caption</p>
+
+    <h2>Outcome</h2>
+    <p>Summarise results in general terms — e.g. improved processing speed, reduced cost, better accuracy — without hard figures if those are under NDA.</p>
+
+  </div>
+
+</body>
+</html>
