@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Client Project Two — aldeav</title>
+  <title>Metric Learning for Schwartz Values — aldeav</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -13,17 +13,18 @@
     :root {
       --black: #111;
       --white: #fafaf8;
-      --mid: #888;
-      --border: #e0ddd8;
-      --tag-bg: #f0ede8;
+      --mid: #555;
+      --border: #d0cdc8;
+      --tag-bg: #e8e5e0;
+      --code-bg: #e8e5df;
     }
 
     body {
       font-family: 'DM Sans', sans-serif;
       background: var(--white);
-      color: var(--black);
-      font-size: 16px;
-      line-height: 1.6;
+      color: #1a1a1a;
+      font-size: 17px;
+      line-height: 1.7;
       -webkit-font-smoothing: antialiased;
     }
 
@@ -35,7 +36,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 1.25rem 2.5rem;
-      background: rgba(250, 250, 248, 0.88);
+      background: rgba(250, 250, 248, 0.92);
       backdrop-filter: blur(8px);
       border-bottom: 0.5px solid var(--border);
     }
@@ -50,27 +51,26 @@
     }
 
     .nav-back {
-      font-size: 13px;
-      color: var(--mid);
+      font-size: 14px;
+      color: #444;
       text-decoration: none;
-      letter-spacing: 0.02em;
       transition: color 0.15s;
     }
 
     .nav-back:hover { color: var(--black); }
 
     .page {
-      max-width: 760px;
+      max-width: 780px;
       margin: 0 auto;
-      padding: 8rem 2.5rem 5rem;
+      padding: 8rem 2.5rem 7rem;
     }
 
     .eyebrow {
       font-family: 'DM Mono', monospace;
-      font-size: 11px;
+      font-size: 12px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--mid);
+      color: #555;
       margin-bottom: 1rem;
     }
 
@@ -78,12 +78,30 @@
       font-family: 'DM Serif Display', serif;
       font-size: clamp(2rem, 5vw, 3rem);
       font-weight: 400;
-      line-height: 1.15;
+      line-height: 1.12;
       letter-spacing: -0.02em;
       margin-bottom: 1.5rem;
+      color: #111;
     }
 
-    .meta {
+    .meta-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 2rem;
+    }
+
+    .meta-item {
+      font-size: 15px;
+      color: #444;
+    }
+
+    .meta-item strong {
+      font-weight: 500;
+      color: #222;
+    }
+
+    .tags {
       display: flex;
       gap: 0.5rem;
       flex-wrap: wrap;
@@ -92,18 +110,18 @@
 
     .tag {
       font-family: 'DM Mono', monospace;
-      font-size: 10px;
+      font-size: 11px;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       background: var(--tag-bg);
-      color: #777;
-      padding: 3px 8px;
+      color: #444;
+      padding: 4px 10px;
       border-radius: 2px;
     }
 
     .tag.confidential {
-      background: #f0ede8;
-      color: #aaa;
+      background: #eee;
+      color: #999;
       border: 0.5px solid #ddd;
     }
 
@@ -112,25 +130,24 @@
       align-items: flex-start;
       gap: 0.75rem;
       padding: 1rem 1.25rem;
-      border: 0.5px solid #e0ddd8;
-      background: #f7f5f1;
+      border: 0.5px solid var(--border);
+      background: #f5f3ee;
       margin-bottom: 2.5rem;
     }
 
-    .nda-notice-icon {
+    .nda-notice-label {
       font-family: 'DM Mono', monospace;
       font-size: 11px;
-      color: var(--mid);
-      margin-top: 1px;
+      color: #999;
       flex-shrink: 0;
+      margin-top: 2px;
     }
 
     .nda-notice p {
-      font-size: 13px;
-      color: #777;
+      font-size: 14px;
+      color: #666;
       line-height: 1.6;
       margin: 0;
-      font-weight: 300;
     }
 
     .divider {
@@ -139,70 +156,154 @@
       margin: 2.5rem 0;
     }
 
-    .summary {
-      font-size: 1.1rem;
-      font-weight: 300;
-      color: #444;
-      line-height: 1.8;
-      margin-bottom: 2.5rem;
+    /* TL;DR block */
+    .tldr {
+      border-left: 3px solid #bbb;
+      padding: 1rem 1.25rem;
+      background: #f5f3ee;
+      margin-bottom: 2rem;
     }
 
-    h2 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.4rem;
-      font-weight: 400;
-      margin-bottom: 1rem;
-    }
-
-    p {
-      font-size: 15px;
-      color: #555;
-      line-height: 1.8;
-      font-weight: 300;
-      margin-bottom: 1rem;
-    }
-
-    /* Visual areas — replace placeholders with real images/charts */
-    .visual-block {
-      border: 0.5px solid var(--border);
-      background: #f7f5f1;
-      min-height: 280px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-      margin: 2rem 0;
-      color: var(--mid);
-      overflow: hidden;
-      position: relative;
-    }
-
-    .visual-block .placeholder-label {
+    .tldr-label {
       font-family: 'DM Mono', monospace;
       font-size: 11px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
+      color: #888;
+      margin-bottom: 0.5rem;
     }
 
-    .visual-block img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
+    .tldr p {
+      font-size: 16px;
+      color: #333;
+      line-height: 1.75;
+      margin: 0;
     }
 
-    .visual-caption {
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.7rem;
+      font-weight: 400;
+      color: #111;
+      margin: 2.5rem 0 1rem;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #222;
+      margin: 1.75rem 0 0.6rem;
+    }
+
+    p {
+      font-size: 17px;
+      color: #222;
+      line-height: 1.8;
+      font-weight: 400;
+      margin-bottom: 1.1rem;
+    }
+
+    code {
       font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--mid);
-      margin-top: -1.25rem;
-      margin-bottom: 2rem;
+      font-size: 14px;
+      background: var(--code-bg);
+      padding: 2px 7px;
+      border-radius: 2px;
+      color: #222;
     }
 
-    .stats-row {
+    strong { font-weight: 600; color: #111; }
+
+    /* Pipeline stages */
+    .pipeline {
+      display: grid;
+      gap: 1px;
+      background: var(--border);
+      border: 0.5px solid var(--border);
+      margin: 1.5rem 0;
+    }
+
+    .pipeline-stage {
+      background: var(--white);
+      padding: 1.25rem 1.5rem;
+    }
+
+    .pipeline-stage-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 0.4rem;
+    }
+
+    .pipeline-stage p {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    /* Results table */
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+      margin: 1.25rem 0;
+    }
+
+    .results-table th {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      padding: 10px 14px;
+      text-align: left;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      font-weight: 500;
+    }
+
+    .results-table td {
+      padding: 9px 14px;
+      border-bottom: 0.5px solid var(--border);
+      color: #222;
+    }
+
+    .results-table tr:nth-child(even) td { background: #f5f3ee; }
+
+    .results-table tr.highlight td {
+      font-weight: 600;
+      color: #111;
+      background: #edeae3;
+    }
+
+    /* Per-value table */
+    .value-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+      margin: 1.25rem 0;
+    }
+
+    .value-table th {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      padding: 10px 14px;
+      text-align: left;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      font-weight: 500;
+    }
+
+    .value-table td {
+      padding: 9px 14px;
+      border-bottom: 0.5px solid var(--border);
+      color: #222;
+    }
+
+    .value-table tr:nth-child(even) td { background: #f5f3ee; }
+
+    /* Stat highlight boxes */
+    .stat-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1px;
@@ -218,23 +319,67 @@
 
     .stat-value {
       font-family: 'DM Serif Display', serif;
-      font-size: 2rem;
+      font-size: 2.2rem;
       line-height: 1;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.3rem;
+      color: #111;
     }
 
     .stat-label {
       font-family: 'DM Mono', monospace;
-      font-size: 10px;
+      font-size: 11px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--mid);
+      color: #777;
     }
+
+    /* Visual placeholder */
+    .visual-block {
+      border: 0.5px solid var(--border);
+      background: #f2f0eb;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 1.25rem 0 0.4rem;
+      color: #aaa;
+      overflow: hidden;
+    }
+
+    .visual-block img { width: 100%; height: auto; display: block; }
+
+    .visual-block .ph {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .visual-caption {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Key takeaway */
+    .takeaway {
+      background: #f2f0eb;
+      border: 0.5px solid var(--border);
+      padding: 1.75rem;
+      margin-top: 1rem;
+    }
+
+    .takeaway p { margin: 0; font-size: 17px; }
 
     @media (max-width: 600px) {
       nav { padding: 1rem 1.25rem; }
-      .page { padding: 7rem 1.25rem 4rem; }
-      .stats-row { grid-template-columns: 1fr; }
+      .page { padding: 7rem 1.25rem 5rem; }
+      .stat-row { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -246,64 +391,151 @@
   </nav>
 
   <div class="page">
-    <p class="eyebrow">Research · 2022-2023, 2025</p>
+
+    <p class="eyebrow">2024–2025</p>
     <h1>Metric Learning and Interpretability for Classifying Schwartz Values</h1>
 
-    <div class="meta">
-      <span class="tag confidential">Confidential</span>
-      <span class="tag">Analytics</span>
-      <!-- Add relevant tags -->
+    <div class="meta-row">
+      <p class="meta-item"><strong>Collaboration:</strong> Marketing Faculty, Management Development Institute, Gurgaon</p>
+      <p class="meta-item"><strong>Timeline:</strong> March 2024 (pipeline & results) · 2025 (interpretability audit)</p>
+      <p class="meta-item"><strong>Stack:</strong> Sentence-BERT · ValueNet · SHAP · LIWC</p>
+    </div>
+
+    <div class="tags">
+      <span class="tag">NLP</span>
+      <span class="tag">Metric Learning</span>
+      <span class="tag">SHAP</span>
+      <span class="tag">Sentence-BERT</span>
+      <span class="tag">Python</span>
     </div>
 
     <div class="nda-notice">
-      <span class="nda-notice-icon">NDA</span>
-      <p>Specific details, client name, and proprietary data are omitted. Visuals below are anonymised or representative.</p>
+      <span class="nda-notice-label">Note: </span>
+      <p>Dataset details and other specifics are omitted. Results and methodology are shared at a level consistent with academic disclosure.</p>
     </div>
 
-    <p class="summary">
-      Replace this with a sanitized 1–2 sentence overview of the project: what industry, what problem, what outcome — without revealing anything proprietary.
+    <div class="tldr">
+      <p class="tldr-label">TL;DR</p>
+      <p>I built a two-stage Sentence-BERT pipeline to detect Schwartz human values in sustainable consumer reviews, achieving nearly a 3 time improvement in the F1 of standard LIWC lexical baselines (0.675 vs. 0.243), including resolving values where LIWC produced no signal at all. One important takeaway was that competing models with identical F1 scores had fundamentally different internal reasoning, and only some aligned with human semantic reasoning. I used SHAP first to select the right architecture on this basis, and then again to verify the final model had not learned spurious correlations during domain adaptation. The core insight is in low-resource social science NLP, a model that scores well for the wrong reasons is not a model you can trust.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <h2>Introduction</h2>
+    <p>This project aims to detect the 10 Schwartz basic human values in sustainable product consumption reviews from the Indian market. Human value detection in consumer text is a non-trivial NLP task: values are expressed implicitly, depend on context rather than just vocabulary, and are highly subjective. Popular approaches in business and marketing research rely on LIWC lexical dictionaries, which match fixed word lists and do not account for implicit expression.
+    This project also addresses the problems of working in low-resource setting and the need for interpretability embedding-based models. The solution is a two-stage Sentence-BERT fine-tuning pipeline with SHAP-based interpretability testing used both to select the final architecture and to verify the reasoning of the deployed model.
     </p>
 
     <div class="divider"></div>
 
-    <!-- Outcome stats — fill in with real (anonymised) numbers -->
-    <div class="stats-row">
-      <div class="stat">
-        <div class="stat-value">—</div>
-        <div class="stat-label">Key metric</div>
+    <h2>Data</h2>
+    <p>Two datasets were used:</p>
+    <p><strong>ValueNet</strong> (~9,000 sentences, 3-class Schwartz annotation) for general value pre-training.</p>
+    <p>A small set of <strong>expert-annotated consumer reviews (45 reviews)</strong> across sustainable product categories in the Indian market, labelled by five domain experts across all 10 Schwartz values.</p>
+    <p>Expert annotation was chosen over crowdsourcing because Schwartz value judgements require contextual reasoning.</p>
+
+    <div class="divider"></div>
+
+    <h2>Pipeline</h2>
+    <p>A two-stage fine-tuning approach was used to make the most of limited labelled data:</p>
+
+    <div class="pipeline">
+      <div class="pipeline-stage">
+        <p class="pipeline-stage-label">Stage 1 — General value learning</p>
+        <p><code>all-mpnet-base-v2</code> fine-tuned on ValueNet. Lower transformer layers frozen and only the top 2 encoder layers updated.</p>
       </div>
-      <div class="stat">
-        <div class="stat-value">—</div>
-        <div class="stat-label">Key metric</div>
+      <div class="pipeline-stage">
+        <p class="pipeline-stage-label">Stage 2 — Domain adaptation</p>
+        <p>Stage 1 model further fine-tuned on the expert reviews, augmented approx. 3 times via truncation and word dropout. Evaluated via stratified 5-fold cross-validation, given the dataset size.</p>
       </div>
-      <div class="stat">
-        <div class="stat-value">—</div>
-        <div class="stat-label">Key metric</div>
+      <div class="pipeline-stage">
+        <p class="pipeline-stage-label">Scoring</p>
+        <p>Four semantically distinct anchor definitions per value were encoded and averaged into a reference embedding. Cosine similarity to this anchor with an optimised threshold determines the prediction.</p>
       </div>
     </div>
 
     <div class="divider"></div>
 
-    <h2>The challenge</h2>
-    <p>Describe the problem at a high level without naming the client or revealing confidential scope. Focus on what made it interesting technically or strategically.</p>
+    <h2>Interpretability: Two-Step SHAP Framework</h2>
+    <p>Standard metrics were insufficient on their own. SHAP was used in two distinct roles:</p>
 
-    <!-- Visual 1 — replace with real chart/mockup/screenshot -->
+    <h3>Step 1 — Architecture selection</h3>
+    <p>Different loss variants produced identical F1 = 0.80 on a target value. SHAP token attributions revealed that some models attended to grammatical fillers like articles, conjunctions, punctuation with no semantic content. The ContrastiveLoss model consistently attended to value-relevant tokens aligned with human judgement. ContrastiveLoss was selected on the basis of reasoning quality, not metric performance.</p>
+
+    <!-- Replace with SHAP attribution comparison image -->
     <div class="visual-block">
-      <span class="placeholder-label">Chart or mockup — drop image here</span>
+      <img src="SHAP_CL.png" alt="GCBM stages" style="width:100%; height:auto;" />
     </div>
-    <p class="visual-caption">Fig. 1 — brief caption</p>
-
-    <h2>Approach</h2>
-    <p>Explain how you approached the problem: methodology, tools, frameworks. This is your chance to demonstrate thinking without disclosing anything proprietary.</p>
-
-    <!-- Visual 2 -->
     <div class="visual-block">
-      <span class="placeholder-label">Second visual — drop image here</span>
+      <img src="SHAP_OL.png" alt="GCBM stages" style="width:100%; height:auto;" />
     </div>
-    <p class="visual-caption">Fig. 2 — brief caption</p>
+    <p class="visual-caption">Fig. 2 — SHAP attributions</p>
 
-    <h2>Outcome</h2>
-    <p>Summarise results in general terms — e.g. improved processing speed, reduced cost, better accuracy — without hard figures if those are under NDA.</p>
+    <h3>Step 2 — Post-training verification</h3>
+    <p>After Stage 2 domain adaptation, SHAP was applied again to confirm the final model had not reintroduced spurious patterns on the small expert dataset. It confirmed semantically grounded reasoning was preserved across both positive and negative examples.</p>
+
+    <div class="divider"></div>
+
+    <h2>Results</h2>
+
+    <div class="stat-row">
+      <div class="stat">
+        <div class="stat-value">Approx 3 times</div>
+        <div class="stat-label">F1 vs LIWC baseline</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">0.675</div>
+        <div class="stat-label">Mean F1 — Stage 2</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">10 / 10</div>
+        <div class="stat-label">Values resolved</div>
+      </div>
+    </div>
+
+    <p>Mean F1 across all 10 Schwartz values:</p>
+
+    <table class="results-table">
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th>Mean F1</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>LIWC Baseline</td><td>0.243</td></tr>
+        <tr><td>Zero-shot (multi-anchor)</td><td>0.313</td></tr>
+        <tr><td>Stage 1 — ValueNet only</td><td>0.587</td></tr>
+        <tr class="highlight"><td>Stage 2 — +Expert domain adaptation</td><td>0.675</td></tr>
+      </tbody>
+    </table>
+
+    <p>The two-stage pipeline achieves almost 3 times the F1 of LIWC. For several implicit values, where expressing a construct like Power or Conformity in a product review requires contextual reading rather than keyword matching, LIWC scored F1 = 0.00. The embedding model resolved all of them.</p>
+
+    <h3>Per-value breakdown (selected)</h3>
+
+    <table class="value-table">
+      <thead>
+        <tr>
+          <th>Value</th>
+          <th>LIWC F1</th>
+          <th>Stage 2 F1</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Achievement</td><td>0.326</td><td>0.794</td></tr>
+        <tr><td>Benevolence</td><td>0.571</td><td>0.826</td></tr>
+        <tr><td>Conformity</td><td>0.118</td><td>0.585</td></tr>
+      </tbody>
+    </table>
+
+    <div class="divider"></div>
+
+    <h2>Key Takeaway</h2>
+
+    <div class="takeaway">
+      <p>When competing models produce identical benchmark scores, standard evaluation cannot distinguish them. SHAP revealed that a model can score well by attending to grammatical noise rather than semantic content which is a failure mode that no classification metric detects. For low-resource settings, interpretability auditing is a necessary complement to quantitative evaluation, not an optional add-on.</p>
+    </div>
 
   </div>
 
