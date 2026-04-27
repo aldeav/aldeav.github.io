@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Client Project One — aldeav</title>
+  <title>Architectural Bias and Uncertainty Quantification in ViTs — aldeav</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -13,17 +13,18 @@
     :root {
       --black: #111;
       --white: #fafaf8;
-      --mid: #888;
-      --border: #e0ddd8;
-      --tag-bg: #f0ede8;
+      --mid: #555;
+      --border: #d0cdc8;
+      --tag-bg: #e8e5e0;
+      --code-bg: #e8e5df;
     }
 
     body {
       font-family: 'DM Sans', sans-serif;
       background: var(--white);
-      color: var(--black);
-      font-size: 16px;
-      line-height: 1.6;
+      color: #1a1a1a;
+      font-size: 17px;
+      line-height: 1.7;
       -webkit-font-smoothing: antialiased;
     }
 
@@ -35,7 +36,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 1.25rem 2.5rem;
-      background: rgba(250, 250, 248, 0.88);
+      background: rgba(250, 250, 248, 0.92);
       backdrop-filter: blur(8px);
       border-bottom: 0.5px solid var(--border);
     }
@@ -50,27 +51,26 @@
     }
 
     .nav-back {
-      font-size: 13px;
-      color: var(--mid);
+      font-size: 14px;
+      color: #444;
       text-decoration: none;
-      letter-spacing: 0.02em;
       transition: color 0.15s;
     }
 
     .nav-back:hover { color: var(--black); }
 
     .page {
-      max-width: 760px;
+      max-width: 780px;
       margin: 0 auto;
-      padding: 8rem 2.5rem 5rem;
+      padding: 8rem 2.5rem 7rem;
     }
 
     .eyebrow {
       font-family: 'DM Mono', monospace;
-      font-size: 11px;
+      font-size: 12px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--mid);
+      color: #555;
       margin-bottom: 1rem;
     }
 
@@ -78,12 +78,30 @@
       font-family: 'DM Serif Display', serif;
       font-size: clamp(2rem, 5vw, 3rem);
       font-weight: 400;
-      line-height: 1.15;
+      line-height: 1.12;
       letter-spacing: -0.02em;
       margin-bottom: 1.5rem;
+      color: #111;
     }
 
-    .meta {
+    .meta-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 2rem;
+    }
+
+    .meta-item {
+      font-size: 15px;
+      color: #444;
+    }
+
+    .meta-item strong {
+      font-weight: 500;
+      color: #222;
+    }
+
+    .tags {
       display: flex;
       gap: 0.5rem;
       flex-wrap: wrap;
@@ -92,45 +110,13 @@
 
     .tag {
       font-family: 'DM Mono', monospace;
-      font-size: 10px;
+      font-size: 11px;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       background: var(--tag-bg);
-      color: #777;
-      padding: 3px 8px;
+      color: #444;
+      padding: 4px 10px;
       border-radius: 2px;
-    }
-
-    .tag.confidential {
-      background: #f0ede8;
-      color: #aaa;
-      border: 0.5px solid #ddd;
-    }
-
-    .nda-notice {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-      padding: 1rem 1.25rem;
-      border: 0.5px solid #e0ddd8;
-      background: #f7f5f1;
-      margin-bottom: 2.5rem;
-    }
-
-    .nda-notice-icon {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--mid);
-      margin-top: 1px;
-      flex-shrink: 0;
-    }
-
-    .nda-notice p {
-      font-size: 13px;
-      color: #777;
-      line-height: 1.6;
-      margin: 0;
-      font-weight: 300;
     }
 
     .divider {
@@ -139,70 +125,129 @@
       margin: 2.5rem 0;
     }
 
-    .summary {
-      font-size: 1.1rem;
-      font-weight: 300;
-      color: #444;
-      line-height: 1.8;
-      margin-bottom: 2.5rem;
+    /* TL;DR block */
+    .tldr {
+      border-left: 3px solid #bbb;
+      padding: 1rem 1.25rem;
+      background: #f5f3ee;
+      margin-bottom: 2rem;
     }
 
-    h2 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.4rem;
-      font-weight: 400;
-      margin-bottom: 1rem;
-    }
-
-    p {
-      font-size: 15px;
-      color: #555;
-      line-height: 1.8;
-      font-weight: 300;
-      margin-bottom: 1rem;
-    }
-
-    /* Visual areas — replace placeholders with real images/charts */
-    .visual-block {
-      border: 0.5px solid var(--border);
-      background: #f7f5f1;
-      min-height: 280px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-      margin: 2rem 0;
-      color: var(--mid);
-      overflow: hidden;
-      position: relative;
-    }
-
-    .visual-block .placeholder-label {
+    .tldr-label {
       font-family: 'DM Mono', monospace;
       font-size: 11px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
+      color: #888;
+      margin-bottom: 0.5rem;
     }
 
-    .visual-block img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
+    .tldr p {
+      font-size: 16px;
+      color: #333;
+      line-height: 1.75;
+      margin: 0;
     }
 
-    .visual-caption {
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.7rem;
+      font-weight: 400;
+      color: #111;
+      margin: 2.5rem 0 1rem;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #222;
+      margin: 1.75rem 0 0.6rem;
+    }
+
+    p {
+      font-size: 17px;
+      color: #222;
+      line-height: 1.8;
+      font-weight: 400;
+      margin-bottom: 1.1rem;
+    }
+
+    code {
       font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--mid);
-      margin-top: -1.25rem;
-      margin-bottom: 2rem;
+      font-size: 14px;
+      background: var(--code-bg);
+      padding: 2px 7px;
+      border-radius: 2px;
+      color: #222;
     }
 
-    .stats-row {
+    strong { font-weight: 600; color: #111; }
+
+    /* Pipeline stages */
+    .pipeline {
+      display: grid;
+      gap: 1px;
+      background: var(--border);
+      border: 0.5px solid var(--border);
+      margin: 1.5rem 0;
+    }
+
+    .pipeline-stage {
+      background: var(--white);
+      padding: 1.25rem 1.5rem;
+    }
+
+    .pipeline-stage-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 0.4rem;
+    }
+
+    .pipeline-stage p {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    /* Results table */
+    .results-table, .value-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+      margin: 1.25rem 0;
+    }
+
+    .results-table th, .value-table th {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      padding: 10px 14px;
+      text-align: left;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      font-weight: 500;
+    }
+
+    .results-table td, .value-table td {
+      padding: 9px 14px;
+      border-bottom: 0.5px solid var(--border);
+      color: #222;
+    }
+
+    .results-table tr:nth-child(even) td, .value-table tr:nth-child(even) td { 
+      background: #f5f3ee; 
+    }
+
+    .results-table tr.highlight td {
+      font-weight: 600;
+      color: #111;
+      background: #edeae3;
+    }
+
+    /* Stat highlight boxes */
+    .stat-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1px;
@@ -218,23 +263,60 @@
 
     .stat-value {
       font-family: 'DM Serif Display', serif;
-      font-size: 2rem;
+      font-size: 2.2rem;
       line-height: 1;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.3rem;
+      color: #111;
     }
 
     .stat-label {
       font-family: 'DM Mono', monospace;
-      font-size: 10px;
+      font-size: 11px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--mid);
+      color: #777;
     }
+
+    /* Visual placeholder */
+    .visual-block {
+      border: 0.5px solid var(--border);
+      background: #f2f0eb;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 1.25rem 0 0.4rem;
+      color: #aaa;
+      overflow: hidden;
+    }
+
+    .visual-block img { width: 100%; height: auto; display: block; }
+
+    .visual-caption {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Key takeaway */
+    .takeaway {
+      background: #f2f0eb;
+      border: 0.5px solid var(--border);
+      padding: 1.75rem;
+      margin-top: 1rem;
+    }
+
+    .takeaway p { margin: 0; font-size: 17px; }
 
     @media (max-width: 600px) {
       nav { padding: 1rem 1.25rem; }
-      .page { padding: 7rem 1.25rem 4rem; }
-      .stats-row { grid-template-columns: 1fr; }
+      .page { padding: 7rem 1.25rem 5rem; }
+      .stat-row { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -246,64 +328,159 @@
   </nav>
 
   <div class="page">
-    <p class="eyebrow">Client work · 2024</p>
+
+    <p class="eyebrow">Independent Research</p>
     <h1>Architectural Bias and Uncertainty Quantification in Vision Transformers</h1>
 
-    <div class="meta">
-      <span class="tag confidential">Confidential</span>
-      <span class="tag">Analytics</span>
-      <!-- Add relevant tags -->
+    <div class="meta-row">
+      <p class="meta-item"><strong>Domain:</strong> Computer Vision & Explainability</p>
+      <p class="meta-item"><strong>Task:</strong> Hematological image classification</p>
+      <p class="meta-item"><strong>Models Tested:</strong> MC-Dropout CNN, Deep Ensembles, Vision Transformers (ViT)</p>
     </div>
 
-    <div class="nda-notice">
-      <span class="nda-notice-icon">NDA</span>
-      <p>Specific details, client name, and proprietary data are omitted. Visuals below are anonymised or representative.</p>
+    <div class="tags">
+      <span class="tag">Vision Transformers</span>
+      <span class="tag">Uncertainty Quantification</span>
+      <span class="tag">Medical Imaging</span>
+      <span class="tag">Explainable AI</span>
     </div>
 
-    <p class="summary">
-      Replace this with a sanitized 1–2 sentence overview of the project: what industry, what problem, what outcome — without revealing anything proprietary.
-    </p>
-
-    <div class="divider"></div>
-
-    <!-- Outcome stats — fill in with real (anonymised) numbers -->
-    <div class="stats-row">
-      <div class="stat">
-        <div class="stat-value">—</div>
-        <div class="stat-label">Key metric</div>
-      </div>
-      <div class="stat">
-        <div class="stat-value">—</div>
-        <div class="stat-label">Key metric</div>
-      </div>
-      <div class="stat">
-        <div class="stat-value">—</div>
-        <div class="stat-label">Key metric</div>
-      </div>
+    <div class="tldr">
+      <p class="tldr-label">TL;DR</p>
+      <p>This project explores whether uncertainty signals derived from CNNs and Vision Transformers (ViTs) flag the same failure modes on medical image classification. Comparing MC-Dropout, Deep Ensembles, and Attention Entropy, the central finding is that CNN and ViT uncertainty signals disagree on 57.9% of test samples. This disagreement is not random noise; it is driven by how convolutions and self-attention structurally process images. Furthermore, the ViT model showed near-zero correlation between its uncertainty signal and its actual errors—proving that high accuracy does not guarantee a safe, reliable uncertainty measure.</p>
     </div>
 
     <div class="divider"></div>
 
-    <h2>The challenge</h2>
-    <p>Describe the problem at a high level without naming the client or revealing confidential scope. Focus on what made it interesting technically or strategically.</p>
+    <h2>Introduction</h2>
+    <p>In high-stakes fields like medical image processing, deploying deep learning models requires not just high classification accuracy but also reliable uncertainty quantification (UQ). A model that is confidently wrong is far more dangerous in practice than one that correctly signals its own doubt and defers to a human expert.</p>
+    <p>This independent study investigates how different architectures quantify that doubt, comparing MC-Dropout, Deep Ensembles, and Vision Transformer (ViT) attention entropy. Specifically, the project addresses three core questions: Do CNN-based and ViT-based uncertainty signals identify the same ambiguous samples? Is their disagreement random or structured by visual features? And can spatially-resolved attention signals recover uncertainty information that scalar entropy misses? Ultimately, the findings reveal a 57.9% architectural disagreement across test samples and uncover critical constraints in standard pre-trained models—proving that even a highly accurate ViT (98.4%) can confidently make incorrect predictions despite attending to the exact right features.</p>
 
-    <!-- Visual 1 — replace with real chart/mockup/screenshot -->
-    <div class="visual-block">
-      <span class="placeholder-label">Chart or mockup — drop image here</span>
+    <div class="divider"></div>
+
+    <h2>Dataset</h2>
+    <p>All experiments used <strong>BloodMNIST</strong> (from MedMNIST v2), containing 17,092 microscopy images of individual blood cells. This dataset is highly relevant because morphological ambiguity between some cell types is genuine. For instance, an immature granulocyte and a mature neutrophil can look nearly identical even to trained doctors, making reliable uncertainty estimation critical.</p>
+
+    <table class="value-table">
+      <thead>
+        <tr>
+          <th>Property</th>
+          <th>Detail</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Classes</td><td>8 total (neutrophil, eosinophil, basophil, etc.)</td></tr>
+        <tr><td>Split</td><td>11,959 train / 1,712 val / 3,421 test</td></tr>
+        <tr><td>Resolution</td><td>28×28 RGB; upsampled to 224×224 for ViT</td></tr>
+      </tbody>
+    </table>
+
+    <div class="divider"></div>
+
+    <h2>Methods</h2>
+    <p>Three model configurations were trained and evaluated, each representing a distinct philosophy for calculating uncertainty:</p>
+
+    <div class="pipeline">
+      <div class="pipeline-stage">
+        <p class="pipeline-stage-label">Stage 1 — MC-Dropout CNN</p>
+        <p>A convolutional network utilizing approximate Bayesian inference. Dropout layers are kept active during inference, passing the image through 50 stochastic forward passes. The predictive entropy across these passes serves as the uncertainty estimate.</p>
+      </div>
+      <div class="pipeline-stage">
+        <p class="pipeline-stage-label">Stage 2 — Deep Ensemble</p>
+        <p>Five identical CNNs trained from different random starting points. Uncertainty is estimated as the disagreement (predictive entropy) across all five models. This is widely considered the empirical gold standard for UQ.</p>
+      </div>
+      <div class="pipeline-stage">
+        <p class="pipeline-stage-label">Stage 3 — ViT with Attention Entropy</p>
+        <p>A fine-tuned Vision Transformer (vit_tiny). Uncertainty is measured as the entropy of the [CLS] token’s attention distribution. Diffuse attention implies uncertainty; focused attention implies confidence.</p>
+      </div>
     </div>
-    <p class="visual-caption">Fig. 1 — brief caption</p>
 
-    <h2>Approach</h2>
-    <p>Explain how you approached the problem: methodology, tools, frameworks. This is your chance to demonstrate thinking without disclosing anything proprietary.</p>
+    <div class="divider"></div>
 
-    <!-- Visual 2 -->
-    <div class="visual-block">
-      <span class="placeholder-label">Second visual — drop image here</span>
+    <h2>Result 1: Accuracy vs. Uncertainty Quality</h2>
+    <p>The ViT substantially outperformed both CNN configurations on accuracy and calibration. However, its uncertainty signal was essentially uncorrelated with its own errors. High accuracy and high calibration do not automatically mean the model knows when it might be wrong.</p>
+
+    <div class="stat-row">
+      <div class="stat">
+        <div class="stat-value">98.4%</div>
+        <div class="stat-label">ViT Accuracy</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">-0.06</div>
+        <div class="stat-label">ViT Spearman Correlation (Near Zero)</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">0.42</div>
+        <div class="stat-label">CNN Spearman Correlation</div>
+      </div>
     </div>
-    <p class="visual-caption">Fig. 2 — brief caption</p>
 
-    <h2>Outcome</h2>
-    <p>Summarise results in general terms — e.g. improved processing speed, reduced cost, better accuracy — without hard figures if those are under NDA.</p>
+    <div class="visual-block">
+      <img src="calibration_curves.png" alt="Calibration Curves by UQ Method" />
+    </div>
+    <p class="visual-caption">Fig 1. Calibration curves. The Spearman column is the critical metric: a useful uncertainty signal should correlate positively with errors.</p>
+
+    <div class="divider"></div>
+
+    <h2>Result 2: Disagreement Is Structured by Architecture</h2>
+    <p>The CNN and ViT uncertainty signals disagreed on 1,982 of 3,421 test samples (57.9%). Crucially, this disagreement isn't random—it is concentrated in specific cell classes and directly explainable by how the models process images.</p>
+
+    <div class="visual-block">
+      <img src="disagreement_scatter.png" alt="Uncertainty Disagreement: CNN vs ViT" />
+    </div>
+    <p class="visual-caption">Fig 2. CNN vs ViT uncertainty scores mapped into four disagreement quadrants.</p>
+
+    <table class="results-table">
+      <thead>
+        <tr>
+          <th>Quadrant</th>
+          <th>Dominant Classes</th>
+          <th>Architectural Interpretation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Q0: Both Certain</td><td>Neutrophil, Erythroblast</td><td>Reliable — both architectures agree.</td></tr>
+        <tr><td>Q1: Both Uncertain</td><td>Basophil, Monocyte</td><td>High-risk — wrong 1 in 3 predictions.</td></tr>
+        <tr class="highlight"><td>Q2: CNN Certain / ViT Uncertain</td><td>Platelet, Eosinophil</td><td>CNN advantage: better at compact, local textures.</td></tr>
+        <tr class="highlight"><td>Q3: CNN Uncertain / ViT Certain</td><td>Immature Granulocyte</td><td>ViT advantage: better at global morphological context.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="divider"></div>
+
+    <h2>Result 3: The Limits of Attention-Based Uncertainty</h2>
+    <p>In Q3 (where the CNN is uncertain but the ViT is confident), we explored whether spatially-resolved attention signals could catch errors that scalar entropy missed.</p>
+
+    <h3>Null Result on Attention Dropout</h3>
+    <p>We found that stochastic attention inference is architecturally unavailable in standard fine-tuned ViTs without explicit retraining. The <code>attn_drop</code> layer is initialized at 0.0 by default, producing variance that is essentially just floating-point noise.</p>
+    
+    <div class="visual-block">
+      <img src="variance_null_result.png" alt="Null Result Documentation" />
+    </div>
+    <p class="visual-caption">Fig 3. Variance values across samples cluster near zero, demonstrating that standard pre-trained ViTs lack stochastic attention out-of-the-box.</p>
+
+    <h3>Attention Maps Reveal the Root Cause</h3>
+    <p>Visual inspection provided the clearest explanation for why ViT uncertainty metrics failed. When the ViT made incorrect predictions in Q3, its attention maps were not erratic or confused. It focused correctly on the relevant anatomical features (nuclear boundaries, membrane structure) but simply attributed them to the wrong class.</p>
+
+    <div class="visual-block">
+      <img src="spatial_maps_correct.png" alt="Mean Attention Maps - Correct Predictions" />
+    </div>
+    <p class="visual-caption">Fig 4. Correct predictions: Tight focus on discriminative regions.</p>
+
+    <div class="visual-block">
+      <img src="spatial_maps_wrong.png" alt="Mean Attention Maps - Wrong Predictions" />
+    </div>
+    <p class="visual-caption">Fig 5. Wrong predictions: Structurally coherent attention on the exact same features. Correct spatial reasoning, but incorrect class assignment.</p>
+
+    <div class="divider"></div>
+
+    <h2>Key Takeaways</h2>
+
+    <div class="takeaway">
+      <p><strong>1. Semantic, Not Attentional Errors:</strong> The ViT's misclassifications on fine-grained cells are semantic. The model "looks" at the right part of the image but guesses the wrong name. This failure mode is completely invisible to uncertainty signals derived from the attention mechanism.</p>
+      <br>
+      <p><strong>2. Accuracy ≠ Reliability:</strong> Do not assume a high-accuracy, well-calibrated model produces a reliable uncertainty signal. Calibration and uncertainty sensitivity are completely different properties and must be tested separately before clinical deployment. Feature-space signals (like SNGP or DUQ) are required to catch these kinds of errors.</p>
+    </div>
 
   </div>
 
