@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inherent vs Post-hoc Explanations in B-cos Networks — aldeav</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #111;
+      --white: #fafaf8;
+      --mid: #555;
+      --border: #d0cdc8;
+      --tag-bg: #e8e5e0;
+      --code-bg: #e8e5df;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: #1a1a1a;
+      font-size: 17px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 2.5rem;
+      background: rgba(250, 250, 248, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      color: var(--black);
+    }
+
+    .nav-back {
+      font-size: 14px;
+      color: #444;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .nav-back:hover { color: var(--black); }
+
+    .page {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 8rem 2.5rem 7rem;
+    }
+
+    .eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 400;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      color: #111;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 2rem;
+    }
+
+    .meta-item {
+      font-size: 15px;
+      color: #444;
+    }
+
+    .meta-item strong {
+      font-weight: 500;
+      color: #222;
+    }
+
+    .tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: var(--tag-bg);
+      color: #444;
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+
+    .divider {
+      height: 0.5px;
+      background: var(--border);
+      margin: 2.5rem 0;
+    }
+
+    /* TL;DR block */
+    .tldr {
+      border-left: 3px solid #bbb;
+      padding: 1rem 1.25rem;
+      background: #f5f3ee;
+      margin-bottom: 2rem;
+    }
+
+    .tldr-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 0.5rem;
+    }
+
+    .tldr p {
+      font-size: 16px;
+      color: #333;
+      line-height: 1.75;
+      margin: 0;
+    }
+
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.7rem;
+      font-weight: 400;
+      color: #111;
+      margin: 2.5rem 0 1rem;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #222;
+      margin: 1.75rem 0 0.6rem;
+    }
+
+    p {
+      font-size: 17px;
+      color: #222;
+      line-height: 1.8;
+      font-weight: 400;
+      margin-bottom: 1.1rem;
+    }
+
+    ol.questions {
+      margin: 0 0 1.1rem 1.4rem;
+    }
+
+    ol.questions li {
+      font-size: 17px;
+      color: #222;
+      line-height: 1.8;
+      margin-bottom: 0.3rem;
+    }
+
+    code {
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      background: var(--code-bg);
+      padding: 2px 7px;
+      border-radius: 2px;
+      color: #222;
+    }
+
+    strong { font-weight: 600; color: #111; }
+
+    /* Pipeline stages */
+    .pipeline {
+      display: grid;
+      gap: 1px;
+      background: var(--border);
+      border: 0.5px solid var(--border);
+      margin: 1.5rem 0;
+    }
+
+    .pipeline-stage {
+      background: var(--white);
+      padding: 1.25rem 1.5rem;
+    }
+
+    .pipeline-stage-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 0.4rem;
+    }
+
+    .pipeline-stage p {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    /* Results table */
+    .results-table, .value-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+      margin: 1.25rem 0;
+    }
+
+    .results-table th, .value-table th {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      padding: 10px 14px;
+      text-align: left;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      font-weight: 500;
+    }
+
+    .results-table td, .value-table td {
+      padding: 9px 14px;
+      border-bottom: 0.5px solid var(--border);
+      color: #222;
+    }
+
+    .results-table tr:nth-child(even) td, .value-table tr:nth-child(even) td {
+      background: #f5f3ee;
+    }
+
+    .results-table tr.highlight td {
+      font-weight: 600;
+      color: #111;
+      background: #edeae3;
+    }
+
+    .results-table th.num, .results-table td.num {
+      text-align: right;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .results-table td.best {
+      font-weight: 600;
+      color: #111;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .results-table tr.control td { color: #888; font-style: italic; }
+
+    .table-wrap { overflow-x: auto; }
+
+    /* Stat highlight boxes */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 0.5px solid var(--border);
+      margin: 2rem 0;
+    }
+
+    .stat {
+      background: var(--white);
+      padding: 1.5rem;
+    }
+
+    .stat-value {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.2rem;
+      line-height: 1;
+      margin-bottom: 0.3rem;
+      color: #111;
+    }
+
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #777;
+    }
+
+    /* Visual placeholder */
+    .visual-block {
+      border: 0.5px solid var(--border);
+      background: #f2f0eb;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin: 1.25rem 0 0.4rem;
+      color: #aaa;
+      overflow: hidden;
+    }
+
+    .visual-block img { width: 100%; height: auto; display: block; }
+
+    .visual-caption {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Key takeaway */
+    .takeaway {
+      background: #f2f0eb;
+      border: 0.5px solid var(--border);
+      padding: 1.75rem;
+      margin-top: 1rem;
+    }
+
+    .takeaway p { margin: 0; font-size: 17px; }
+
+    /* References */
+    .refs {
+      list-style: none;
+      font-size: 14px;
+      color: #444;
+      line-height: 1.65;
+    }
+
+    .refs li { margin-bottom: 0.55rem; padding-left: 1rem; text-indent: -1rem; }
+
+    .refs a { color: #444; }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.25rem; }
+      .page { padding: 7rem 1.25rem 5rem; }
+      .stat-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../../index.html" class="nav-logo">aldeav</a>
+    <a href="../../index.html" class="nav-back">← Back</a>
+  </nav>
+
+  <div class="page">
+
+    <p class="eyebrow">Explainable AI · Research Project</p>
+    <h1>Inherent vs Post-hoc Explanations in B-cos Networks</h1>
+
+    <div class="meta-row">
+      <p class="meta-item"><strong>Domain:</strong> Explainable AI &amp; Computer Vision</p>
+      <p class="meta-item"><strong>Task:</strong> Agreement and faithfulness of attribution maps on image classification</p>
+      <p class="meta-item"><strong>Models Tested:</strong> B-cos ResNet18, standard ResNet18 (both ImageNet-pretrained, no fine-tuning)</p>
+      <p class="meta-item"><strong>Stack:</strong> PyTorch · Captum · SciPy</p>
+    </div>
+
+    <div class="tags">
+      <span class="tag">Explainable AI</span>
+      <span class="tag">B-cos Networks</span>
+      <span class="tag">Attribution Methods</span>
+      <span class="tag">Faithfulness</span>
+    </div>
+
+    <div class="tldr">
+      <p class="tldr-label">TL;DR</p>
+      <p>B-cos networks are built to explain themselves. This project tests whether that built-in explanation agrees with six standard post-hoc attribution methods computed on the same model, and which of them is actually more faithful. The inherent map only partly agrees with post-hoc maps: it correlates moderately with the CAM-family methods and SmoothGrad (ρ = 0.43–0.50) but not at all with Input×Gradient and Integrated Gradients (ρ ≈ 0). Which explanation counts as "most faithful" flips with the deletion protocol: gradient methods win with black fill, the inherent map wins with blur fill. Post-hoc methods therefore are not redundant on an inherently interpretable model, and nearly all of them are more faithful on B-cos than on a standard ResNet18, though incremental deletion cannot make that cross-model comparison fully fair.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <h2>Introduction</h2>
+    <p>Most explanations for deep vision models are post-hoc: the network is trained as a black box, and an attribution method such as Grad-CAM or Integrated Gradients is applied afterwards to estimate which pixels mattered. B-cos networks take the opposite approach. By replacing linear layers with B-cos transforms that reward alignment between weights and inputs, the model's whole computation can be summarised as a single input-dependent linear map, which doubles as an explanation the model gives of itself.</p>
+    <p>That raises a natural question: once a model explains itself, are post-hoc methods still needed? This project addresses four questions:</p>
+    <ol class="questions">
+      <li>Does the B-cos model's self-explanation agree with post-hoc attribution maps on the same network?</li>
+      <li>Where they disagree, which explanation is more faithful to the model?</li>
+      <li>Do post-hoc methods provide information the inherent explanation does not?</li>
+      <li>How do the same post-hoc methods compare on the inherently interpretable model versus a standard one?</li>
+    </ol>
+
+    <div class="divider"></div>
+
+    <h2>Dataset</h2>
+    <p>All experiments used <strong>Imagenette</strong>, a 10-class subset of ImageNet with visually distinct categories. Because both models are ImageNet-pretrained, Imagenette labels map directly onto ImageNet logits, so no fine-tuning was needed and the same targets were used for both networks.</p>
+
+    <table class="value-table">
+      <thead>
+        <tr>
+          <th>Property</th>
+          <th>Detail</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Classes</td><td>10 (tench, English springer, cassette player, chain saw, church, French horn, garbage truck, gas pump, golf ball, parachute)</td></tr>
+        <tr><td>Sample</td><td>50 fixed validation images (seed <code>59</code>), identical for every method, model, fill and metric</td></tr>
+        <tr><td>Preprocessing</td><td>Resize to 256, center-crop to 224×224, scale to [0, 1]</td></tr>
+      </tbody>
+    </table>
+
+    <div class="divider"></div>
+
+    <h2>Methods</h2>
+    <p>For each image, seven importance maps were generated on B-cos ResNet18 (the inherent map plus six post-hoc methods) and six on the standard ResNet18. Every map is 224×224, and only its pixel ranking is used downstream, so differences in scale between methods do not matter.</p>
+
+    <table class="value-table">
+      <thead>
+        <tr>
+          <th>Method</th>
+          <th>Configuration</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>B-cos inherent</td><td>The model's own dynamic linear map (B-cos model only)</td></tr>
+        <tr><td>Input×Gradient</td><td>Captum</td></tr>
+        <tr><td>Integrated Gradients</td><td>Captum, 50 steps, black baseline</td></tr>
+        <tr><td>SmoothGrad</td><td>Captum, 25 samples, σ = 0.15</td></tr>
+        <tr><td>Grad-CAM</td><td>Last convolutional block</td></tr>
+        <tr><td>Guided Grad-CAM</td><td>Captum</td></tr>
+        <tr><td>Grad-CAM++</td><td>Implemented manually (not in Captum); uses second- and third-order derivatives to weight positive gradients, improving localisation of multiple objects and small regions</td></tr>
+      </tbody>
+    </table>
+
+    <div class="pipeline">
+      <div class="pipeline-stage">
+        <p class="pipeline-stage-label">Stage 1 — Agreement (Spearman ρ)</p>
+        <p>For each image, the pixels of every map were ranked and each pair of maps compared with Spearman's rank correlation (<code>scipy.stats.spearmanr</code>), then averaged over the 50 images. This depends only on the maps, so it is independent of any deletion setting.</p>
+      </div>
+      <div class="pipeline-stage">
+        <p class="pipeline-stage-label">Stage 2 — Faithfulness (Incremental Deletion)</p>
+        <p>The most important pixels according to each map were removed over 50 steps while tracking the target-class probability. The area under this deletion curve (AUC) is the faithfulness score: a lower AUC means the map found the pixels the model truly relies on.</p>
+      </div>
+      <div class="pipeline-stage">
+        <p class="pipeline-stage-label">Stage 3 — Robustness Checks</p>
+        <p>Deletion was repeated with black fill (reference) and Gaussian blur fill (RISE parameters, kernel 11, σ 5) to see whether the ranking depends on how pixels are removed. For the three signed methods (B-cos inherent, Input×Gradient, Integrated Gradients), ranking by signed versus absolute values was also compared.</p>
+      </div>
+      <div class="pipeline-stage">
+        <p class="pipeline-stage-label">Stage 4 — Random Baseline &amp; Cross-Model Comparison</p>
+        <p>Deletion with a random pixel ordering was run on both models (AUC 0.033 on B-cos, 0.037 on standard) as a reference point, and used to attempt a comparison of the six shared methods across the two architectures. Results were stable across three random seeds (42, 59, 62) and sample sizes from N = 25 to 200.</p>
+      </div>
+    </div>
+
+    <div class="visual-block">
+      <img src="maps_parachute.png" alt="Parachute image with B-cos inherent and six post-hoc attribution maps" />
+    </div>
+    <div class="visual-block">
+      <img src="maps_springer.png" alt="English springer image with B-cos inherent and six post-hoc attribution maps" />
+    </div>
+    <p class="visual-caption">Fig 1. All seven maps on the B-cos model for two Imagenette images. Left to right: input, B-cos inherent, Input×Gradient, Integrated Gradients, Grad-CAM, Grad-CAM++, Guided Grad-CAM, SmoothGrad.</p>
+
+    <div class="divider"></div>
+
+    <h2>Result 1: Only Partial Agreement</h2>
+    <p>The seven maps on the B-cos model split into two clear families. Input×Gradient and Integrated Gradients agree strongly with each other but have essentially zero correlation with everything else, including the inherent map. The CAM-family methods and SmoothGrad agree closely with one another and moderately with the inherent explanation.</p>
+
+    <div class="stat-row">
+      <div class="stat">
+        <div class="stat-value">0.71</div>
+        <div class="stat-label">ρ between IxG and IG</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">≈ 0</div>
+        <div class="stat-label">ρ of IxG / IG vs B-cos inherent</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">0.43–0.50</div>
+        <div class="stat-label">ρ of CAM family &amp; SmoothGrad vs inherent</div>
+      </div>
+    </div>
+
+    <div class="visual-block">
+      <img src="spearman_agreement.png" alt="Heatmap of mean Spearman correlation between attribution maps on the B-cos model" />
+    </div>
+    <p class="visual-caption">Fig 2. Mean pixel-rank agreement (Spearman ρ) between every pair of maps on B-cos ResNet18, averaged over 50 images.</p>
+
+    <p>Disagreement on its own would not matter if the outlying methods were simply wrong. They are not: Input×Gradient and Integrated Gradients turn out to be among the most faithful maps in the deletion test below. Two explanations that rank pixels completely differently can both track the model's behaviour, which means the post-hoc methods are surfacing information the inherent map does not.</p>
+
+    <div class="divider"></div>
+
+    <h2>Result 2: "Most Faithful" Depends on the Protocol</h2>
+    <p>With the standard black fill, Input×Gradient and Integrated Gradients collapse the target-class probability fastest and beat the inherent map by roughly half (AUC 0.015 vs 0.029). The CAM-family methods and SmoothGrad actually score worse than random pixel ordering under this setting.</p>
+
+    <div class="visual-block">
+      <img src="deletion_curves.png" alt="Deletion curves for all methods on the B-cos model with black fill" />
+    </div>
+    <p class="visual-caption">Fig 3. Mean deletion curves on B-cos ResNet18 with black fill. Lower area under the curve means a more faithful map.</p>
+
+    <p>Switching to Gaussian blur fill reverses the winner: the B-cos inherent map becomes the most faithful explanation, and the gradient methods fall behind it.</p>
+
+    <div class="table-wrap">
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th class="num">Black fill</th>
+            <th class="num">Blur fill</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Input×Gradient</td><td class="num best">0.015</td><td class="num">0.223</td></tr>
+          <tr><td>Integrated Gradients</td><td class="num best">0.015</td><td class="num">0.261</td></tr>
+          <tr class="highlight"><td>B-cos inherent</td><td class="num">0.029</td><td class="num best">0.177</td></tr>
+          <tr class="control"><td>Random (control)</td><td class="num">0.033</td><td class="num">0.249</td></tr>
+          <tr><td>SmoothGrad</td><td class="num">0.048</td><td class="num">0.254</td></tr>
+          <tr><td>Guided Grad-CAM</td><td class="num">0.051</td><td class="num">0.267</td></tr>
+          <tr><td>Grad-CAM</td><td class="num">0.053</td><td class="num">0.296</td></tr>
+          <tr><td>Grad-CAM++</td><td class="num">0.054</td><td class="num">0.293</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="visual-caption">Table 1. Deletion AUC on B-cos ResNet18 under black and blur fill (lower = more faithful; best per column underlined).</p>
+
+    <h3>Why the fill matters</h3>
+    <p>Black pixels are an unnatural input for a B-cos network: its <code>AddInverse</code> input encoding concatenates each image with its inverse, so a black pixel is not a neutral "off" signal but an active one. Black fill also coincides exactly with the black baseline used by Integrated Gradients, which hands that method a built-in advantage. Blur keeps deleted regions closer to natural image statistics and removes this bias.</p>
+
+    <h3>Signed vs absolute ranking</h3>
+    <p>Ranking pixels by absolute rather than signed attribution makes Input×Gradient and Integrated Gradients noticeably less faithful, while the B-cos inherent map is unchanged. The sign carries real information for the gradient methods, while the inherent map's faithfulness does not depend on it.</p>
+
+    <div class="divider"></div>
+
+    <h2>Result 3: Post-hoc Methods Work Better on B-cos</h2>
+    <p>Applying the same six methods to both architectures, every method except Guided Grad-CAM achieves a lower deletion AUC on B-cos ResNet18 than on the standard ResNet18. The CAM methods improve the most, at roughly 40%.</p>
+
+    <div class="table-wrap">
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th class="num">B-cos</th>
+            <th class="num">Standard</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="control"><td>Random (control)</td><td class="num">0.033</td><td class="num">0.037</td></tr>
+          <tr><td>Input×Gradient</td><td class="num best">0.015</td><td class="num">0.023</td></tr>
+          <tr><td>Integrated Gradients</td><td class="num best">0.015</td><td class="num">0.021</td></tr>
+          <tr><td>SmoothGrad</td><td class="num best">0.048</td><td class="num">0.069</td></tr>
+          <tr class="highlight"><td>Guided Grad-CAM</td><td class="num">0.051</td><td class="num best">0.036</td></tr>
+          <tr><td>Grad-CAM</td><td class="num best">0.053</td><td class="num">0.085</td></tr>
+          <tr><td>Grad-CAM++</td><td class="num best">0.054</td><td class="num">0.088</td></tr>
+          <tr><td>B-cos inherent</td><td class="num">0.029</td><td class="num">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="visual-caption">Table 2. Deletion AUC (black fill) for the same methods on both models. Lower is better; the better model per method is underlined.</p>
+
+    <p>Guided Grad-CAM is the exception because it relies on guided backpropagation, whose ReLU-based gradient rule matches the standard ResNet's activations but not the B-cos transforms.</p>
+
+    <h3>The limits of this comparison</h3>
+    <p>These cross-model numbers should be read with caution. Incremental deletion pushes images out of the training distribution, and the two architectures degrade on such corrupted inputs in different ways. The random baseline aligns the two models' zero points, but it cannot correct for those different degradation paths, so the AUCs still do not live in a fully shared space.</p>
+
+    <div class="divider"></div>
+
+    <h2>Key Takeaways</h2>
+
+    <div class="takeaway">
+      <p><strong>1. Self-explanation ≠ consensus:</strong> The B-cos inherent map partly agrees with Grad-CAM, Grad-CAM++, Guided Grad-CAM and SmoothGrad, but not at all with Input×Gradient or Integrated Gradients.</p>
+      <br>
+      <p><strong>2. Faithfulness rankings are protocol-dependent:</strong> Black fill favours the gradient methods; blur fill makes the inherent map the most faithful. Any claim that one explanation is "the most faithful" needs to state the evaluation setup it holds under.</p>
+      <br>
+      <p><strong>3. Post-hoc methods are not redundant:</strong> Input×Gradient and Integrated Gradients are faithful yet rank pixels very differently from the inherent map, so they capture information the self-explanation misses, even on an inherently interpretable model.</p>
+      <br>
+      <p><strong>4. B-cos makes post-hoc methods more faithful, with caveats:</strong> Every method except Guided Grad-CAM scores better on B-cos than on standard ResNet18, but out-of-distribution effects from deletion keep the cross-model comparison from being fully fair.</p>
+    </div>
+
+    <h3>Next step</h3>
+    <p>An in-domain metric such as the single-deletion score of Hesse et al. (IDSDS), which removes one patch at a time from near-natural images, would keep inputs close to the training distribution and make scores more comparable across architectures. Re-running these experiments with it would test the findings without the out-of-domain and cross-model problems of incremental deletion.</p>
+
+    <div class="divider"></div>
+
+    <h2>References</h2>
+    <ul class="refs">
+      <li>Böhle et al. "B-cos Networks: Alignment is All We Need for Interpretability." CVPR 2022.</li>
+      <li>Böhle et al. "B-cos Alignment for Inherently Interpretable CNNs and Vision Transformers." IEEE TPAMI 2024.</li>
+      <li>He et al. "Deep Residual Learning for Image Recognition." CVPR 2016.</li>
+      <li>Howard, J. Imagenette. fast.ai. <a href="https://github.com/fastai/imagenette" target="_blank">github.com/fastai/imagenette</a></li>
+      <li>Shrikumar et al. "Not Just a Black Box: Learning Important Features Through Propagating Activation Differences." arXiv:1605.01713, 2016.</li>
+      <li>Sundararajan et al. "Axiomatic Attribution for Deep Networks." ICML 2017.</li>
+      <li>Smilkov et al. "SmoothGrad: removing noise by adding noise." arXiv:1706.03825, 2017.</li>
+      <li>Selvaraju et al. "Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization." ICCV 2017.</li>
+      <li>Chattopadhay et al. "Grad-CAM++: Generalized Gradient-Based Visual Explanations for Deep Convolutional Networks." WACV 2018.</li>
+      <li>Samek et al. "Evaluating the Visualization of What a Deep Neural Network Has Learned." IEEE TNNLS 2017.</li>
+      <li>Petsiuk et al. "RISE: Randomized Input Sampling for Explanation of Black-box Models." BMVC 2018.</li>
+      <li>Spearman, C. "The Proof and Measurement of Association between Two Things." American Journal of Psychology, 1904.</li>
+      <li>Hesse et al. "Benchmarking the Attribution Quality of Vision Models." NeurIPS 2024 (Datasets &amp; Benchmarks Track).</li>
+    </ul>
+
+  </div>
+
+</body>
+</html>
